@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hash } = require('../helpers/toBcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -48,6 +49,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate: (user, options) => {
+        user.password = hash(user.password)
+      },
+      beforeUpdate: (user, options) => {
+        user.password = hash(user.password)
+      }
+    }
   });
   return User;
 };
