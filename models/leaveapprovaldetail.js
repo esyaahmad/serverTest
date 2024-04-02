@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       LeaveApprovalDetail.belongsTo(models.LeaveApproval, {foreignKey: 'leaveApprovalId'})
-      LeaveApprovalDetail.belongsToMany(models.User, {foreignKey: 'userId'})
+      LeaveApprovalDetail.belongsTo(models.User, {foreignKey: 'userId'})
       // define association here
     }
   }
