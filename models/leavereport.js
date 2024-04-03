@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       LeaveReport.belongsTo(models.User, {foreignKey: 'userId'})
-      LeaveReport.belongsTo(models.LeaveApproval, {foreignKey: 'leaveReportId'})
+      LeaveReport.hasMany(models.LeaveApproval, {foreignKey: 'leaveReportId'})
       // define association here
     }
   }
@@ -54,7 +54,9 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    status: DataTypes.STRING
+    status: {
+      type:DataTypes.STRING,
+    defaultValue: 'pending'},
   }, {
     sequelize,
     modelName: 'LeaveReport',

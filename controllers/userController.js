@@ -1,6 +1,8 @@
 const { signToken } = require("../helpers/jwt");
 const { compare } = require("../helpers/toBcrypt");
 const { User } = require("../models/index");
+const { LeaveBalance } = require("../models/index");
+
 
 class userController {
   static async login(req, res, next) {
@@ -97,6 +99,90 @@ class userController {
       }
     }
   }
+
+  static async getUsers(req,res,next) {
+    try {
+        const users = await User.findAll({
+            attributes: {exclude: ["password", 'createdAt', 'updatedAt']}, include: {model:LeaveBalance}
+        })
+        res.status(200).json({users})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+static async getUsersByDepartment(req,res,next) {
+  try {
+    const {department} = req.loginInfo
+
+      const users = await User.findAll({
+          attributes: {exclude: ["password", 'createdAt', 'updatedAt']},
+          where: {
+              department: department
+          }
+      })
+      res.status(200).json({users})
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+
+static async getUsersByDepartmentSupervisor(req,res,next) {
+  try {
+    const {department} = req.loginInfo
+
+      const users = await User.findAll({
+          attributes: {exclude: ["password", 'createdAt', 'updatedAt']},
+          where: {
+              department: department,
+              role: 'supervisor'
+          }
+      })
+      res.status(200).json({users})
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+static async getUsersByDepartmentManager(req,res,next) {
+  try {
+    const {department} = req.loginInfo
+
+      const users = await User.findAll({
+          attributes: {exclude: ["password", 'createdAt', 'updatedAt']},
+          where: {
+              department: department,
+              role: 'manager'
+          }
+      })
+      res.status(200).json({users})
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+static async getUsersByIdLogin(req,res,next) {
+  try {
+    const {userId} = req.loginInfo
+
+      const users = await User.findAll({
+          attributes: {exclude: ["password", 'createdAt', 'updatedAt']},
+          where: {
+              id: userId
+          }
+      })
+      res.status(200).json({users})
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 }
 
 module.exports = userController;

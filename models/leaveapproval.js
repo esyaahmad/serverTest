@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      LeaveApproval.hasOne(models.LeaveReport, {foreignKey: 'leaveReportId'})
-      LeaveApproval.belongsTo(models.LeaveApprovalDetail, {foreignKey: 'leaveApprovalId'})
+      LeaveApproval.belongsTo(models.LeaveReport, {foreignKey: 'leaveReportId'})
+      LeaveApproval.hasMany(models.LeaveApprovalDetail, {foreignKey: 'leaveApprovalId'})
       // define association here
     }
   }
