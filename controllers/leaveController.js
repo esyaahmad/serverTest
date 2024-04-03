@@ -3,9 +3,9 @@ class leaveController {
   static async addLeaveRequest(req, res, next) {
     try {
       // console.log(req.body);
-      const { userId } = req.loginInfo;
+    //   const { userId } = req.loginInfo;
 
-      const { name, description, department, startDate, endDate } = req.body;
+      const { name, description, department, startDate, endDate, userId } = req.body;
       // Start and end dates
       var newStartDate = new Date(startDate);
       var newEndDate = new Date(endDate);
